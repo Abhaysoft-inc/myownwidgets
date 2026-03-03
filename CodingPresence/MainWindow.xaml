@@ -1,0 +1,308 @@
+﻿<Window x:Class="CodingPresence.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        SizeToContent="Height"
+        Width="300"
+        Loaded="Window_Loaded"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseMove="Window_MouseMove"
+        MouseLeftButtonUp="Window_MouseLeftButtonUp">
+
+    <Border x:Name="RootBorder"
+            Background="#EE0D0D1F"
+            CornerRadius="14"
+            Padding="0">
+        <StackPanel>
+
+            <!-- ── Header bar ──────────────────────────────────── -->
+            <Border x:Name="HeaderBorder"
+                    Background="#22141428"
+                    CornerRadius="14 14 0 0"
+                    Padding="14 10">
+                <Grid>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center">
+                        <TextBlock x:Name="IdeIcon"
+                                   Text="💻"
+                                   FontSize="15"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text=" CODING PRESENCE"
+                                   FontFamily="Segoe UI"
+                                   FontSize="10"
+                                   FontWeight="Bold"
+                                   Foreground="#ffff"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <!-- Session timer -->
+                    <TextBlock x:Name="SessionLabel"
+                               FontFamily="Cascadia Code, Consolas"
+                               FontSize="11"
+                               Foreground="#6688BBFF"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- ── IDE info ────────────────────────────────────── -->
+            <Border x:Name="IdePanel"
+                    Padding="14 10 14 6">
+                <StackPanel>
+                    <!-- Status row -->
+                    <Grid Margin="0 0 0 6">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="IdeBadge"
+                                    Background="#281E3A5F"
+                                    CornerRadius="5"
+                                    Padding="7 3">
+                                <TextBlock x:Name="IdeNameLabel"
+                                           FontFamily="Segoe UI"
+                                           FontSize="11"
+                                           FontWeight="SemiBold"
+                                           Foreground="#569CD6"/>
+                            </Border>
+                        </StackPanel>
+                        <TextBlock x:Name="TodayLabel"
+                                   FontFamily="Cascadia Code, Consolas"
+                                   FontSize="10"
+                                   Foreground="#44AAAACC"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- Project -->
+                    <StackPanel x:Name="ProjectRow"
+                                Orientation="Horizontal"
+                                Margin="0 0 0 4">
+                        <TextBlock Text="📁 "
+                                   FontSize="11"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock x:Name="ProjectLabel"
+                                   FontFamily="Cascadia Code, Consolas"
+                                   FontSize="12"
+                                   Foreground="#CCDDEEFF"
+                                   TextTrimming="CharacterEllipsis"
+                                   MaxWidth="230"/>
+                    </StackPanel>
+
+                    <!-- File -->
+                    <StackPanel x:Name="FileRow"
+                                Orientation="Horizontal"
+                                Margin="0 0 0 2">
+                        <TextBlock Text="📄 "
+                                   FontSize="11"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock x:Name="FileLabel"
+                                   FontFamily="Cascadia Code, Consolas"
+                                   FontSize="11"
+                                   Foreground="#88AACCFF"
+                                   TextTrimming="CharacterEllipsis"
+                                   MaxWidth="230"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Divider -->
+            <Rectangle Height="1"
+                       Fill="#18AAAACC"
+                       Margin="10 0"/>
+
+            <!-- ── Cat + Quote ──────────────────────────────────── -->
+            <Grid x:Name="CatQuoteRow"
+                  Margin="10 8 10 12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Pixel cat canvas -->
+                <Canvas x:Name="CatCanvas"
+                        Grid.Column="0"
+                        Width="72"
+                        Height="72"
+                        Margin="0 0 10 0"
+                        VerticalAlignment="Bottom">
+                    <!-- Tail (animated via code) -->
+                    <Rectangle x:Name="CatTail"
+                               Canvas.Left="54"
+                               Canvas.Top="42"
+                               Width="10"
+                               Height="28"
+                               RadiusX="5"
+                               RadiusY="5"
+                               Fill="#3D3D6E"
+                               RenderTransformOrigin="0.5,0">
+                        <Rectangle.RenderTransform>
+                            <RotateTransform x:Name="TailRotate"/>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+
+                    <!-- Body -->
+                    <Rectangle x:Name="CatBody"
+                               Canvas.Left="10"
+                               Canvas.Top="38"
+                               Width="46"
+                               Height="30"
+                               RadiusX="8"
+                               RadiusY="8"
+                               Fill="#3D3D6E"/>
+
+                    <!-- Head -->
+                    <Rectangle x:Name="CatHead"
+                               Canvas.Left="8"
+                               Canvas.Top="10"
+                               Width="50"
+                               Height="40"
+                               RadiusX="14"
+                               RadiusY="14"
+                               Fill="#3D3D6E"/>
+
+                    <!-- Ear left -->
+                    <Polygon x:Name="EarLeft"
+                             Points="10,24 16,6 26,22"
+                             Fill="#3D3D6E"/>
+                    <!-- Ear right -->
+                    <Polygon x:Name="EarRight"
+                             Points="56,24 50,6 40,22"
+                             Fill="#3D3D6E"/>
+                    <!-- Inner ear L -->
+                    <Polygon x:Name="InnerEarLeft"
+                             Points="13,22 17,10 25,21"
+                             Fill="#FF88CC"/>
+                    <!-- Inner ear R -->
+                    <Polygon x:Name="InnerEarRight"
+                             Points="53,22 49,10 41,21"
+                             Fill="#FF88CC"/>
+
+                    <!-- Eye left (animated blink) -->
+                    <Ellipse x:Name="EyeLeft"
+                             Canvas.Left="18"
+                             Canvas.Top="24"
+                             Width="10"
+                             Height="7"
+                             Fill="#FF88CC"
+                             RenderTransformOrigin="0.5,0.5">
+                        <Ellipse.RenderTransform>
+                            <ScaleTransform x:Name="EyeLeftScale"
+                                            ScaleX="1"
+                                            ScaleY="1"/>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                    <!-- Eye right -->
+                    <Ellipse x:Name="EyeRight"
+                             Canvas.Left="38"
+                             Canvas.Top="24"
+                             Width="10"
+                             Height="7"
+                             Fill="#FF88CC"
+                             RenderTransformOrigin="0.5,0.5">
+                        <Ellipse.RenderTransform>
+                            <ScaleTransform x:Name="EyeRightScale"
+                                            ScaleX="1"
+                                            ScaleY="1"/>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+
+                    <!-- Nose -->
+                    <Polygon x:Name="CatNose"
+                             Points="33,34 30,38 36,38"
+                             Fill="#FF88CC"/>
+
+                    <!-- Mouth -->
+                    <Path x:Name="MouthPath"
+                          Stroke="#FF88CC"
+                          StrokeThickness="1.5"
+                          StrokeStartLineCap="Round"
+                          StrokeEndLineCap="Round">
+                        <Path.Data>M 29 38 Q 33 42 37 38</Path.Data>
+                    </Path>
+
+                    <!-- Whiskers left -->
+                    <Line X1="8"
+                          Y1="34"
+                          X2="24"
+                          Y2="36"
+                          Stroke="#66AAAACC"
+                          StrokeThickness="1"/>
+                    <Line X1="8"
+                          Y1="38"
+                          X2="24"
+                          Y2="38"
+                          Stroke="#66AAAACC"
+                          StrokeThickness="1"/>
+                    <!-- Whiskers right -->
+                    <Line X1="58"
+                          Y1="34"
+                          X2="42"
+                          Y2="36"
+                          Stroke="#66AAAACC"
+                          StrokeThickness="1"/>
+                    <Line X1="58"
+                          Y1="38"
+                          X2="42"
+                          Y2="38"
+                          Stroke="#66AAAACC"
+                          StrokeThickness="1"/>
+
+                    <!-- Paw left (typing animation) -->
+                    <Rectangle x:Name="PawLeft"
+                               Canvas.Left="12"
+                               Canvas.Top="64"
+                               Width="14"
+                               Height="10"
+                               RadiusX="4"
+                               RadiusY="4"
+                               Fill="#3D3D6E">
+                        <Rectangle.RenderTransform>
+                            <TranslateTransform x:Name="PawLeftMove"/>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                    <!-- Paw right -->
+                    <Rectangle x:Name="PawRight"
+                               Canvas.Left="40"
+                               Canvas.Top="64"
+                               Width="14"
+                               Height="10"
+                               RadiusX="4"
+                               RadiusY="4"
+                               Fill="#3D3D6E">
+                        <Rectangle.RenderTransform>
+                            <TranslateTransform x:Name="PawRightMove"/>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+
+                </Canvas>
+
+                <!-- Custom GIF mascot (shown instead of pixel cat when UseGif=true) -->
+                <Image x:Name="GifMascot"
+                       Grid.Column="0"
+                       Width="72"
+                       Height="72"
+                       Margin="0 0 10 0"
+                       VerticalAlignment="Bottom"
+                       Visibility="Collapsed"
+                       Stretch="Uniform"/>
+
+                <!-- Quote text -->
+                <Border x:Name="QuoteBorder"
+                        Grid.Column="1"
+                        Background="#18334488"
+                        CornerRadius="8"
+                        Padding="10 8">
+                    <TextBlock x:Name="QuoteLabel"
+                               FontFamily="Segoe UI"
+                               FontSize="10"
+                               FontStyle="Italic"
+                               Foreground="#99AACCEE"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
+
+        </StackPanel>
+    </Border>
+</Window>

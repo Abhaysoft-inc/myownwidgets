@@ -1,0 +1,247 @@
+﻿<Window x:Class="TimetableWidget.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Edit Timetable"
+        Width="520" SizeToContent="Height"
+        MaxHeight="680"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+
+    <Window.Resources>
+        <Style x:Key="DarkComboBox" TargetType="ComboBox">
+            <Setter Property="Background"      Value="{DynamicResource WidgetInput}"/>
+            <Setter Property="Foreground"      Value="{DynamicResource WidgetFg}"/>
+            <Setter Property="BorderBrush"     Value="#44444466"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height"          Value="28"/>
+            <Setter Property="FontFamily"      Value="Segoe UI"/>
+            <Setter Property="FontSize"        Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="22"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter Grid.Column="0"
+                                                      Margin="8 0 0 0"
+                                                      VerticalAlignment="Center"
+                                                      Content="{TemplateBinding SelectionBoxItem}"
+                                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"/>
+                                    <Path Grid.Column="1"
+                                          Data="M0,0 L5,5 L10,0"
+                                          Stroke="{TemplateBinding Foreground}"
+                                          StrokeThickness="1.5"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                            <ToggleButton Background="Transparent" BorderThickness="0"
+                                          Focusable="False"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,
+                                              RelativeSource={RelativeSource TemplatedParent}}">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="Transparent"/>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Fade"
+                                   Placement="Bottom">
+                                <Border Background="{DynamicResource WidgetPanel}"
+                                        BorderBrush="#55556688"
+                                        BorderThickness="1"
+                                        CornerRadius="6"
+                                        MinWidth="{TemplateBinding ActualWidth}"
+                                        MaxHeight="200"
+                                        Margin="0 2 0 0">
+                                    <ScrollViewer SnapsToDevicePixels="True">
+                                        <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Foreground" Value="{DynamicResource WidgetFg}"/>
+                        <Setter Property="Padding"    Value="10 6"/>
+                        <Setter Property="FontFamily" Value="Segoe UI"/>
+                        <Setter Property="FontSize"   Value="12"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ComboBoxItem">
+                                    <Border Background="{TemplateBinding Background}"
+                                            Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource WidgetAccent}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource WidgetAccent}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="{DynamicResource WidgetPanel}" CornerRadius="12" Padding="20">
+        <StackPanel>
+
+            <!-- Title bar -->
+            <Grid Margin="0 0 0 16">
+                <TextBlock Text="Edit Timetable"
+                           FontFamily="Segoe UI" FontSize="15" FontWeight="SemiBold"
+                           Foreground="{DynamicResource WidgetFg}"/>
+                <Button Content="&#x2715;"
+                        HorizontalAlignment="Right"
+                        Width="26" Height="26" FontSize="11"
+                        Background="Transparent" BorderThickness="0"
+                        Foreground="{DynamicResource WidgetMuted}"
+                        Cursor="Hand" Click="CloseBtn_Click"/>
+            </Grid>
+
+            <!-- Day selector -->
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <TextBlock Text="Day:"
+                           FontFamily="Segoe UI" FontSize="12"
+                           Foreground="{DynamicResource WidgetMuted}"
+                           VerticalAlignment="Center" Margin="0 0 10 0"/>
+                <ComboBox x:Name="DayCombo"
+                          Width="110"
+                          Style="{StaticResource DarkComboBox}"
+                          SelectionChanged="DayCombo_SelectionChanged"/>
+            </StackPanel>
+
+            <!-- Lecture list -->
+            <Border Background="{DynamicResource WidgetInput}" CornerRadius="8"
+                    Padding="6" Margin="0 0 0 10">
+                <ListView x:Name="LectureListView"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          MinHeight="200" MaxHeight="320"
+                          Foreground="{DynamicResource WidgetFg}"
+                          FontFamily="Segoe UI"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Background"      Value="Transparent"/>
+                            <Setter Property="Foreground"      Value="{DynamicResource WidgetFg}"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Padding"         Value="4 3"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource WidgetAccent}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource WidgetPanel}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style TargetType="GridViewColumnHeader">
+                                    <Setter Property="Background"      Value="Transparent"/>
+                                    <Setter Property="Foreground"      Value="{DynamicResource WidgetMuted}"/>
+                                    <Setter Property="FontFamily"      Value="Segoe UI"/>
+                                    <Setter Property="FontSize"        Value="11"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Padding"         Value="4 2"/>
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn Header="Time"    Width="140"
+                                            DisplayMemberBinding="{Binding Time}"/>
+                            <GridViewColumn Header="Subject" Width="300"
+                                            DisplayMemberBinding="{Binding Subject}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Border>
+
+            <!-- Delete selected -->
+            <Button Content="Delete Selected"
+                    HorizontalAlignment="Right"
+                    Margin="0 0 0 14" Padding="10 5"
+                    Background="#3A1E2E" Foreground="#FF8888"
+                    BorderThickness="0"
+                    FontFamily="Segoe UI" FontSize="12"
+                    Cursor="Hand" Click="DeleteBtn_Click"/>
+
+            <!-- Add new lecture -->
+            <Border Background="{DynamicResource WidgetInput}" CornerRadius="8"
+                    Padding="12" Margin="0 0 0 14">
+                <StackPanel>
+                    <TextBlock Text="Add Lecture"
+                               FontFamily="Segoe UI" FontSize="11"
+                               Foreground="{DynamicResource WidgetMuted}"
+                               Margin="0 0 0 8"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="TimeInput" Grid.Column="0"
+                                 Margin="0 0 8 0" Padding="6 4"
+                                 Background="{DynamicResource WidgetPanel}"
+                                 Foreground="{DynamicResource WidgetFg}"
+                                 CaretBrush="{DynamicResource WidgetFg}"
+                                 BorderBrush="#44444466"
+                                 FontFamily="Segoe UI" FontSize="12"/>
+                        <TextBox x:Name="SubjectInput" Grid.Column="1"
+                                 Margin="0 0 8 0" Padding="6 4"
+                                 Background="{DynamicResource WidgetPanel}"
+                                 Foreground="{DynamicResource WidgetFg}"
+                                 CaretBrush="{DynamicResource WidgetFg}"
+                                 BorderBrush="#44444466"
+                                 FontFamily="Segoe UI" FontSize="12"/>
+                        <Button Grid.Column="2" Content="+ Add"
+                                Padding="10 5"
+                                Background="{DynamicResource WidgetAccent}"
+                                Foreground="{DynamicResource WidgetFg}"
+                                BorderThickness="0"
+                                FontFamily="Segoe UI" FontSize="12"
+                                Cursor="Hand" Click="AddBtn_Click"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Save -->
+            <Button Content="Save Changes"
+                    HorizontalAlignment="Stretch" Padding="0 10"
+                    Background="{DynamicResource WidgetAccent}"
+                    Foreground="{DynamicResource WidgetFg}"
+                    BorderThickness="0"
+                    FontFamily="Segoe UI" FontSize="13" FontWeight="SemiBold"
+                    Cursor="Hand" Click="SaveBtn_Click"/>
+
+        </StackPanel>
+    </Border>
+</Window>

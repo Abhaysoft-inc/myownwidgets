@@ -1,0 +1,386 @@
+<Window x:Class="ScreenWidget.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Camera Widget – Settings"
+        Width="380"
+        SizeToContent="Height"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+
+    <Border Background="#F2181828"
+            CornerRadius="12"
+            Padding="20">
+        <StackPanel>
+
+            <!-- Title bar -->
+            <Grid Margin="0 0 0 20">
+                <TextBlock Text="Camera Widget Settings"
+                           FontFamily="Segoe UI"
+                        FontSize="15"
+                        FontWeight="SemiBold"
+                           Foreground="#E0E0F0"/>
+                <Button Content="✕"
+                        HorizontalAlignment="Right"
+                        Width="26"
+                        Height="26"
+                        FontSize="11"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="#88AAAACC"
+                        Cursor="Hand"
+                        Click="CancelBtn_Click"/>
+            </Grid>
+
+            <!-- ── Capture ─────────────────────────────────────────── -->
+            <TextBlock Text="CAPTURE"
+                       FontFamily="Segoe UI"
+                    FontSize="10"
+                    FontWeight="SemiBold"
+                       Foreground="#55667788"
+                    Margin="0 0 0 10"/>
+
+            <!-- Manual capture button -->
+            <Button x:Name="CaptureNowBtn"
+                    Content="📷  Capture Now"
+                    Padding="0 10"
+                    Background="#1E3A5F"
+                    Foreground="#C0D8FF"
+                    BorderThickness="0"
+                    FontFamily="Segoe UI"
+                    FontSize="12"
+                    FontWeight="SemiBold"
+                    Cursor="Hand"
+                    Margin="0 0 0 6"
+                    Click="CaptureNowBtn_Click"/>
+
+            <!-- Open folder -->
+            <Button Content="📁  Open Captures Folder"
+                    Padding="0 8"
+                    Background="#222233"
+                    Foreground="#8888AA"
+                    BorderThickness="0"
+                    FontFamily="Segoe UI"
+                    FontSize="11"
+                    Cursor="Hand"
+                    Margin="0 0 0 20"
+                    Click="OpenFolderBtn_Click"/>
+
+            <!-- Camera index -->
+            <TextBlock Text="CAMERA INDEX"
+                       FontFamily="Segoe UI"
+                    FontSize="10"
+                    FontWeight="SemiBold"
+                       Foreground="#55667788"
+                    Margin="0 0 0 8"/>
+            <Grid Margin="0 0 0 20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="36"/>
+                </Grid.ColumnDefinitions>
+                <Slider x:Name="CameraIndexSlider"
+                        Grid.Column="0"
+                        Minimum="0"
+                        Maximum="5"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"
+                        VerticalAlignment="Center"
+                        ValueChanged="CameraIndexSlider_ValueChanged"/>
+                <TextBlock x:Name="CameraIndexLabel"
+                           Grid.Column="1"
+                           FontFamily="Segoe UI"
+                        FontSize="12"
+                           Foreground="#88AAAACC"
+                           HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Auto-capture interval -->
+            <TextBlock Text="AUTO-CAPTURE INTERVAL  (minutes)"
+                       FontFamily="Segoe UI"
+                    FontSize="10"
+                    FontWeight="SemiBold"
+                       Foreground="#55667788"
+                    Margin="0 0 0 8"/>
+            <Grid Margin="0 0 0 20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="44"/>
+                </Grid.ColumnDefinitions>
+                <Slider x:Name="IntervalSlider"
+                        Grid.Column="0"
+                        Minimum="1"
+                        Maximum="120"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"
+                        VerticalAlignment="Center"
+                        ValueChanged="IntervalSlider_ValueChanged"/>
+                <TextBlock x:Name="IntervalLabel"
+                           Grid.Column="1"
+                           FontFamily="Segoe UI"
+                        FontSize="12"
+                           Foreground="#88AAAACC"
+                           HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- ── Appearance ──────────────────────────────────────── -->
+            <TextBlock Text="APPEARANCE"
+                       FontFamily="Segoe UI"
+                    FontSize="10"
+                    FontWeight="SemiBold"
+                       Foreground="#55667788"
+                    Margin="0 0 0 10"/>
+
+            <!-- Opacity -->
+            <TextBlock Text="Opacity"
+                       FontFamily="Segoe UI"
+                    FontSize="11"
+                       Foreground="#AAAACC"
+                    Margin="0 0 0 6"/>
+            <Grid Margin="0 0 0 16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="44"/>
+                </Grid.ColumnDefinitions>
+                <Slider x:Name="OpacitySlider"
+                        Grid.Column="0"
+                        Minimum="0.1"
+                        Maximum="1.0"
+                        TickFrequency="0.05"
+                        IsSnapToTickEnabled="True"
+                        VerticalAlignment="Center"
+                        ValueChanged="OpacitySlider_ValueChanged"/>
+                <TextBlock x:Name="OpacityLabel"
+                           Grid.Column="1"
+                           FontFamily="Segoe UI"
+                        FontSize="12"
+                           Foreground="#88AAAACC"
+                           HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Widget width -->
+            <TextBlock Text="Width  (px)"
+                       FontFamily="Segoe UI"
+                    FontSize="11"
+                       Foreground="#AAAACC"
+                    Margin="0 0 0 6"/>
+            <Grid Margin="0 0 0 16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="52"/>
+                </Grid.ColumnDefinitions>
+                <Slider x:Name="WidthSlider"
+                        Grid.Column="0"
+                        Minimum="100"
+                        Maximum="700"
+                        TickFrequency="10"
+                        IsSnapToTickEnabled="True"
+                        VerticalAlignment="Center"
+                        ValueChanged="WidthSlider_ValueChanged"/>
+                <TextBlock x:Name="WidthLabel"
+                           Grid.Column="1"
+                           FontFamily="Segoe UI"
+                        FontSize="12"
+                           Foreground="#88AAAACC"
+                           HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Corner radius -->
+            <TextBlock Text="Corner Radius"
+                       FontFamily="Segoe UI"
+                    FontSize="11"
+                       Foreground="#AAAACC"
+                    Margin="0 0 0 6"/>
+            <Grid Margin="0 0 0 16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="36"/>
+                </Grid.ColumnDefinitions>
+                <Slider x:Name="RadiusSlider"
+                        Grid.Column="0"
+                        Minimum="0"
+                        Maximum="40"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"
+                        VerticalAlignment="Center"
+                        ValueChanged="RadiusSlider_ValueChanged"/>
+                <TextBlock x:Name="RadiusLabel"
+                           Grid.Column="1"
+                           FontFamily="Segoe UI"
+                        FontSize="12"
+                           Foreground="#88AAAACC"
+                           HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- ── Animated border ─────────────────────────────────── -->
+            <TextBlock Text="ANIMATED BORDER"
+                       FontFamily="Segoe UI"
+                    FontSize="10"
+                    FontWeight="SemiBold"
+                       Foreground="#55667788"
+                    Margin="0 0 0 10"/>
+
+            <!-- Border thickness -->
+            <TextBlock Text="Thickness  (px)"
+                       FontFamily="Segoe UI"
+                    FontSize="11"
+                       Foreground="#AAAACC"
+                    Margin="0 0 0 6"/>
+            <Grid Margin="0 0 0 16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="36"/>
+                </Grid.ColumnDefinitions>
+                <Slider x:Name="BorderThicknessSlider"
+                        Grid.Column="0"
+                        Minimum="1"
+                        Maximum="20"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"
+                        VerticalAlignment="Center"
+                        ValueChanged="BorderThicknessSlider_ValueChanged"/>
+                <TextBlock x:Name="BorderThicknessLabel"
+                           Grid.Column="1"
+                           FontFamily="Segoe UI"
+                        FontSize="12"
+                           Foreground="#88AAAACC"
+                           HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Border speed -->
+            <TextBlock Text="Rotation Speed  (sec / full turn)"
+                       FontFamily="Segoe UI"
+                    FontSize="11"
+                       Foreground="#AAAACC"
+                    Margin="0 0 0 6"/>
+            <Grid Margin="0 0 0 24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="44"/>
+                </Grid.ColumnDefinitions>
+                <Slider x:Name="BorderSpeedSlider"
+                        Grid.Column="0"
+                        Minimum="0.5"
+                        Maximum="12"
+                        TickFrequency="0.5"
+                        IsSnapToTickEnabled="True"
+                        VerticalAlignment="Center"
+                        ValueChanged="BorderSpeedSlider_ValueChanged"/>
+                <TextBlock x:Name="BorderSpeedLabel"
+                           Grid.Column="1"
+                           FontFamily="Segoe UI"
+                        FontSize="12"
+                           Foreground="#88AAAACC"
+                           HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- ── Position ────────────────────────────────────────── -->
+            <TextBlock Text="POSITION"
+                       FontFamily="Segoe UI"
+                    FontSize="10"
+                    FontWeight="SemiBold"
+                       Foreground="#55667788"
+                    Margin="0 0 0 10"/>
+
+            <!-- X -->
+            <Grid Margin="0 0 0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="52"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                        Text="X"
+                           FontFamily="Segoe UI"
+                        FontSize="11"
+                           Foreground="#88AAAACC"
+                        VerticalAlignment="Center"/>
+                <Slider x:Name="PosXSlider"
+                        Grid.Column="1"
+                        Minimum="0"
+                        Maximum="3840"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"
+                        VerticalAlignment="Center"
+                        ValueChanged="PosXSlider_ValueChanged"/>
+                <TextBlock x:Name="PosXLabel"
+                           Grid.Column="2"
+                           FontFamily="Segoe UI"
+                        FontSize="12"
+                           Foreground="#88AAAACC"
+                           HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Y -->
+            <Grid Margin="0 0 0 24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="52"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                        Text="Y"
+                           FontFamily="Segoe UI"
+                        FontSize="11"
+                           Foreground="#88AAAACC"
+                        VerticalAlignment="Center"/>
+                <Slider x:Name="PosYSlider"
+                        Grid.Column="1"
+                        Minimum="0"
+                        Maximum="2160"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True"
+                        VerticalAlignment="Center"
+                        ValueChanged="PosYSlider_ValueChanged"/>
+                <TextBlock x:Name="PosYLabel"
+                           Grid.Column="2"
+                           FontFamily="Segoe UI"
+                        FontSize="12"
+                           Foreground="#88AAAACC"
+                           HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Buttons -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                        Content="Cancel"
+                        Padding="0 10"
+                        Background="#2A2A3E"
+                        Foreground="#8888AA"
+                        BorderThickness="0"
+                        FontFamily="Segoe UI"
+                        FontSize="12"
+                        Cursor="Hand"
+                        Click="CancelBtn_Click"/>
+                <Button Grid.Column="2"
+                        Content="Apply"
+                        Padding="0 10"
+                        Background="#334488"
+                        Foreground="#C0D8FF"
+                        BorderThickness="0"
+                        FontFamily="Segoe UI"
+                        FontSize="12"
+                        FontWeight="SemiBold"
+                        Cursor="Hand"
+                        Click="ApplyBtn_Click"/>
+            </Grid>
+
+        </StackPanel>
+    </Border>
+</Window>
