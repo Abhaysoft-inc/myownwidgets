@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+
+    <!-- App identity / metadata -->
+    <AssemblyName>CPContestWidget</AssemblyName>
+    <RootNamespace>CPContestWidget</RootNamespace>
+    <ApplicationIcon>AppIcon.ico</ApplicationIcon>
+    <Win32Icon>AppIcon.ico</Win32Icon>
+    <Company>Widgets</Company>
+    <Product>CP Contest Widget</Product>
+    <Description>Desktop widget for tracking upcoming competitive programming contests.</Description>
+    <Copyright>Copyright (c) Widgets</Copyright>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <InformationalVersion>1.0.0</InformationalVersion>
+
+    <!-- Optional publish signing (enable with -p:SignArtifacts=true) -->
+    <SignArtifacts Condition="'$(SignArtifacts)' == ''">false</SignArtifacts>
+    <SigningCertificatePfx Condition="'$(SigningCertificatePfx)' == ''">$(USERPROFILE)\.certs\cpcontestwidget.pfx</SigningCertificatePfx>
+    <SigningCertificatePassword Condition="'$(SigningCertificatePassword)' == ''">$(CPCW_CERT_PASSWORD)</SigningCertificatePassword>
+    <TimeStampServer Condition="'$(TimeStampServer)' == ''">http://timestamp.digicert.com</TimeStampServer>
+  </PropertyGroup>
+
+  <Target Name="SignPublishedExe" AfterTargets="Publish"
+          Condition="'$(SignArtifacts)' == 'true' and Exists('$(SigningCertificatePfx)') and Exists('$(PublishDir)$(AssemblyName).exe')">
+    <Message Text="Signing $(PublishDir)$(AssemblyName).exe" Importance="high" />
+    <Exec Command="signtool sign /fd SHA256 /tr $(TimeStampServer) /td SHA256 /f &quot;$(SigningCertificatePfx)&quot; /p &quot;$(SigningCertificatePassword)&quot; &quot;$(PublishDir)$(AssemblyName).exe&quot;" />
+  </Target>
+
+</Project>

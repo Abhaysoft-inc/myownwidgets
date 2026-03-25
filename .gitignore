@@ -26,6 +26,23 @@ project.lock.json
 publish/
 **/Properties/PublishProfiles/
 
+# Packaging and release artifacts
+artifacts/
+**/artifacts/
+*.zip
+*.msi
+*.msix
+*.msixbundle
+*.appx
+*.appxbundle
+
+# Local signing material (never commit)
+.certs/
+*.pfx
+*.p12
+*.pvk
+*.snk
+
 # App data / logs written at runtime
 AppData/
 
